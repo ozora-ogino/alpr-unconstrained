@@ -1,9 +1,12 @@
-FROM tensorflow/tensorflow:1.15.5-py3
+ARG VERSION
+FROM tensorflow/tensorflow:${VERSION}
 
 WORKDIR /opt
 
 # Install darknet.
-RUN apt-get update && \
+RUN rm -f /etc/apt/sources.list.d/cuda.list && \
+	rm -f /etc/apt/sources.list.d/nvidia-ml.list && \
+	apt-get update && \
 	apt-get install -y \
 	git \
 	wget \
@@ -22,7 +25,10 @@ RUN pip install -U pip && pip install --no-cache-dir Cython opencv-python && \
 	pip install -e .&& \
 	cd /opt && \
 	# Download yolov2 weight file.
-	mkdir bin && \
+	mkdir /opt/bin && \
+	mkdir -p /opt/data/ocr/ && \
 	wget -O /opt/bin/yolov2.weights https://pjreddie.com/media/files/yolov2.weights && \
+	wget -c -N http://sergiomsilva.com/data/eccv2018/ocr/ocr-net.weights -P data/ocr/ && \
 	cp /opt/darknet/cfg/yolov2.cfg  /opt/darkflow/cfg/yolov2.cfg && \
 	cp /opt/darknet/data/coco.names /opt/labels.txt
+

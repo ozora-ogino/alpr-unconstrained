@@ -26,8 +26,14 @@ def _main():
         batch_size=32,
         input_size=(INPUT_SIZE, INPUT_SIZE),
     )
+    val_gen = CCPDDataGen(
+        data_dir="/opt/data/CCPD2019/",
+        split_filename="val.txt",
+        batch_size=32,
+        input_size=(INPUT_SIZE, INPUT_SIZE),
+    )
 
-    wpodnet.fit(train_gen, epochs=1)
+    wpodnet.fit(train_gen, validation_data=val_gen, epochs=1)
 
 
 if __name__ == "__main__":
