@@ -12,18 +12,19 @@ from utils import IOU_centre_and_dims, getWH, hsv_transform, im2single
 
 
 class CCPDDataGen(tf.keras.utils.Sequence):
-    def __init__(self, data_dir: str, batch_size, input_size=(224, 224), shuffle=True):
+    def __init__(self, data_dir: str, split_filename: str, batch_size, input_size=(224, 224), shuffle=True):
         self.data_dir = data_dir
         self.batch_size = batch_size
         self.input_size = input_size
         self.shuffle = shuffle
-        img_exts = ["jpg", "jpeg", "png"]
-        self.image_files = [
-            os.path.join(self.data_dir, filename)
-            for filename in os.listdir(self.data_dir)
-            if filename.split(".")[-1] in img_exts
-        ]
+        split_file_path = os.path.join(self.data_dir, "splits", split_filename)
+        self.image_files = self._read_split_file(split_file_path)
         self.n = len(self.image_files)
+
+    def _read_split_file(self, path: str) -> List[str]:
+        with open(path, "r") as f:
+            files = [os.path.join(self.data_dir, x) for x in f.read().split("\n")]
+        return files
 
     def _load_data(self, batches: List[str]):
         images = []

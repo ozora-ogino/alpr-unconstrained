@@ -21,7 +21,8 @@ def _main():
 
     wpodnet.compile(loss=loss, optimizer=Adam(0.01))
     train_gen = CCPDDataGen(
-        data_dir="/opt/data/CCPD2019/ccpd_weather",
+        data_dir="/opt/data/CCPD2019/",
+        split_filename="train.txt",
         batch_size=32,
         input_size=(INPUT_SIZE, INPUT_SIZE),
     )
