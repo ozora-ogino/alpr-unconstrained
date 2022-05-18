@@ -28,6 +28,10 @@ RUN pip install -U pip && pip install --no-cache-dir Cython opencv-python && \
 	mkdir /opt/bin && \
 	mkdir -p /opt/data/ocr/ && \
 	wget -O /opt/bin/yolov2.weights https://pjreddie.com/media/files/yolov2.weights && \
+	# Download pre-trained OCR model.
+	wget -c -N http://sergiomsilva.com/data/eccv2018/ocr/ocr-net.cfg     -P data/ocr/ && \
+	wget -c -N http://sergiomsilva.com/data/eccv2018/ocr/ocr-net.names   -P data/ocr/ && \
+	wget -c -N http://sergiomsilva.com/data/eccv2018/ocr/ocr-net.data    -P data/ocr/ && \
 	wget -c -N http://sergiomsilva.com/data/eccv2018/ocr/ocr-net.weights -P data/ocr/ && \
 	cp /opt/darknet/cfg/yolov2.cfg  /opt/darkflow/cfg/yolov2.cfg && \
 	cp /opt/darknet/data/coco.names /opt/labels.txt

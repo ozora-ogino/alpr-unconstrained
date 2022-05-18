@@ -19,6 +19,6 @@ build:
 
 run:
 	docker run --rm -it \
-	-v ${PWD}/data:/opt/data \
+	-v ${CCPD}:/opt/data/CCPD2019 \
 	-v ${PWD}/src/:/opt/src ${IMAGE_NAME}:${DEVICE} \
 	${ENTRYPOINT}
